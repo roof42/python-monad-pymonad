@@ -1,15 +1,14 @@
 import csv
 import os
-from typing import Final
 from pymonad.tools import curry
 from pymonad.either import Left, Right
 
 # Function to handle file reading
 def read_csv_file(file_path):
-    try:
+    if os.path.isfile(file_path):
         with open(file_path, 'r') as csvfile:
             return Right(list(map(list, csv.reader(csvfile))))
-    except FileNotFoundError as e:
+    else:
         return Left("Error: File not found")
 
 def remove_header(data):
@@ -23,9 +22,6 @@ def extract_column(column_index, data):
         else Left("Error: Unable to extract column")  
     )
 
-extract_score_column = extract_column(1)
-extract_name_column = extract_column(0)
-
 def convert_to_float(data):
     try:
         converted_data =  [float(item) for item in data] 
@@ -34,19 +30,20 @@ def convert_to_float(data):
         return Left("Error: Unable to convert to float")
 
 def calculate_average(column_values):
-    try:
-        average = sum(column_values) / len(column_values)
-        return Right(average)
-    except ZeroDivisionError as e:
-        return Left("Error: Division by zero")   
+    return ( 
+        Right(sum(column_values) / len(column_values))
+        if len(column_values) > 0
+        else Left("Error: Division by zero")   
+    )
 
 # Data pipeline using the Either monad and custom sequencing operator
 csv_file_path = 'example.csv'
+score_column_index = 1
 
 result = (
     read_csv_file(csv_file_path)
     .then (remove_header)
-    .then (extract_score_column)
+    .then (extract_column(score_column_index))
     .then (convert_to_float)
     .then (calculate_average) 
 )
