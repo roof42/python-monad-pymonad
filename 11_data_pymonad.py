@@ -19,13 +19,10 @@ def remove_header(data):
 
 @curry(2)
 def extract_column(column_index, data):
-    if data is None or not data:
-        return Left("Error: Cannot calculate average due to empty or missing column")    
-    try:
-        column_values = [row[column_index] for row in data]
-        return Right(column_values)
-    except (ValueError, IndexError) as e:
-        return Left("Error: Unable to extract column")
+    return (
+        Right(data).bind(lambda rows: 
+        Right(list(map(lambda row: row[column_index], rows))))
+    )
 
 extract_score_column = extract_column(1)
 extract_name_column = extract_column(0)
