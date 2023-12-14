@@ -17,4 +17,5 @@ def string_template(value):
 
 # Example usage
 result = Right('5').then(parse_int).then(square).then(string_template)
+result = Right('5') >> (parse_int) >> (square) >> (string_template)
 print(result)

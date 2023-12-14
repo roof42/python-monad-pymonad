@@ -17,7 +17,11 @@ def extract_column(column_index, data):
         return column_values
     except (ValueError, IndexError) as e:
         return None    
-    
+
+extract_column_index = curry(extract_column)
+extract_score = extract_column_index(1)
+extract_name = extract_column_index(0)
+
 def remove_header(data):
     try:
         data = data[1:]
@@ -39,10 +43,6 @@ def calculate_average(column_values):
         return average
     except ZeroDivisionError as e:
         return None    
-
-extract_column_index = curry(extract_column)
-extract_score = extract_column_index(1)
-extract_name = extract_column_index(0)
 
 data = read_csv_file('example.csv')    
 

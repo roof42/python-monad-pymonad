@@ -3,9 +3,6 @@ from typing import Final
 from pymonad.tools import curry
 from pymonad.either import Left, Right
 
-def remove_header(data):
-    return Right(data[1:]) if len(data) > 1 else Left("Error: Unable to remove header")
-
 # Function to handle file reading
 def read_csv_file(file_path):
     try:
@@ -15,6 +12,9 @@ def read_csv_file(file_path):
             return Right(data)
     except FileNotFoundError as e:
         return Left("Error: File not found")
+
+def remove_header(data):
+    return Right(data[1:]) if len(data) > 1 else Left("Error: Unable to remove header")
 
 @curry(2)
 def extract_column(column_index, data):

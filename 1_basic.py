@@ -10,7 +10,7 @@ def read_csv_file(file_path):
     except FileNotFoundError as e:
         return None
 
-# Function to extract a colum xxn
+# Function to extract a colum
 def extract_column(column_index, data):
     try:
         column_values = [float(row[1]) for row in data[1:]]
