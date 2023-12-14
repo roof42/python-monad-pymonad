@@ -40,16 +40,8 @@ def calculate_average(column_values):
 # Data pipeline using the Either monad and custom sequencing operator
 csv_file_path = 'example.csv'
 
-data =  read_csv_file(csv_file_path)
-
-names = (
-    data
-    .then (remove_header)
-    .then (extract_name_column)
-)
-
 result = (
-    data
+    read_csv_file(csv_file_path)
     .then (remove_header)
     .then (extract_score_column)
     .then (convert_to_float)
@@ -57,7 +49,7 @@ result = (
 )
 
 
-if result.is_right and names.is_right:
-    print(f"An average score of {', '.join(names.value[:-1])} and {names.value[-1]} is {result.value}")
+if result.is_right():
+    print(f"An average score is {result.value}")
 else:   
-    print(f"Error processing data: {result.value}")
+    print(f"Error processing data: {result}")

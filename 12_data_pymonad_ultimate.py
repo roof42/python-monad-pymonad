@@ -24,9 +24,8 @@ def remove_header(data):
 @curry(2)
 def extract_column(column_index, data):
     return (
-        Right(data)
-        .bind(lambda rows: 
-              Right(list(map(lambda row: row[column_index], rows))))
+        Right(data).bind(lambda rows: 
+        Right(list(map(lambda row: row[column_index], rows))))
     )
 
 extract_score_column = extract_column(1)
@@ -48,18 +47,18 @@ def calculate_average(column_values):
     )
 
 # Data pipeline using the Either monad and custom sequencing operator
-csv_file_path = 'example.csv'
+csv_file_path = '1example.csv'
 
-data =  read_csv_file(csv_file_path)
+# data =  read_csv_file(csv_file_path)
 
 names = (
-    data
+    read_csv_file(csv_file_path)
     .then (remove_header)
     .then (extract_name_column)
 )
 
 result = (
-    data
+    read_csv_file(csv_file_path)
     .then (remove_header)
     .then (extract_score_column)
     .then (convert_to_float)
