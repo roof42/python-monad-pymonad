@@ -15,27 +15,37 @@ def read_csv_file(file_path):
         return Left("Error: File not found")
 
 def remove_header(data):
-    return Right(data[1:]) if len(data) > 1 else Left("Error: Unable to remove header")
+    return (
+        Right(data[1:]) 
+        if len(data) > 1 
+        else Left("Error: Unable to remove header")
+    )
 
 @curry(2)
 def extract_column(column_index, data):
-    if data is None or not data:
-        return Left("Error: Cannot calculate average due to empty or missing column")    
-    try:
-        column_values = [row[column_index] for row in data]
-        return Right(column_values)
-    except (ValueError, IndexError) as e:
-        return Left("Error: Unable to extract column")
+    return (
+        Right(data)
+        .bind(lambda rows: 
+              Right(list(map(lambda row: row[column_index], rows))))
+    )
 
 extract_score_column = extract_column(1)
 extract_name_column = extract_column(0)
 
 def convert_to_float(data):
-    return Right(list(map(float, data))) if data else Left("Error: Unable to convert to float")
+    return (
+        Right(list(map(float, data))) 
+        if data 
+        else Left("Error: Unable to convert to float")
+    )
 
 
 def calculate_average(column_values):
-    return  Right(sum(column_values) / len(column_values)) if column_values else Left("Error: Division by zero")
+    return  (
+        Right(sum(column_values) / len(column_values)) 
+        if column_values 
+        else Left("Error: Division by zero")
+    )
 
 # Data pipeline using the Either monad and custom sequencing operator
 csv_file_path = 'example.csv'
