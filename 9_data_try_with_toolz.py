@@ -46,9 +46,13 @@ extract_score = extract_column_index(1)
 extract_name = extract_column_index(0)
 
 try:
-    data = read_csv_file('example.csv')
-    names = pipe(data,extract_name,remove_header)
-    average_result = pipe(data,extract_score,remove_header,convert_to_float,calculate_average)
-    print(f"An average score of {', '.join(names[:-1])} and {names[-1]} is {average_result}")
+    average_result = pipe(
+            read_csv_file('example.csv'),
+            extract_score,
+            remove_header,
+            convert_to_float,
+            calculate_average
+    )
+    print(f"An average score is {average_result}")
 except (FileNotFoundError, ValueError, IndexError, ZeroDivisionError) as e:
     print(f"Exception caught: {e}")

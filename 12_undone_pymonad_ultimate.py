@@ -6,13 +6,11 @@ from pymonad.either import Left, Right
 
 # Function to handle file reading
 def read_csv_file(file_path):
-    try:
-        with open(file_path, 'r') as csvfile:
+    with open(file_path, 'r') as csvfile:
             reader = csv.reader(csvfile)
             data = [row for row in reader]
-            return Right(data)
-    except FileNotFoundError as e:
-        return Left("Error: File not found")
+            return data
+    return IO(read_file)
 
 def remove_header(data):
     return (
