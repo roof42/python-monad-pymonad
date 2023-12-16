@@ -1,11 +1,2 @@
-# Install virtualenv
-pip install virtualenv
-
-# Create a virtual environment
-virtualenv venv
-
-# Activate the virtual environment
-source venv/bin/activate
-
-# To install dependencies from requirements.txt elsewhere
+# To install dependencies from requirements.txt
 pip install -r requirements.txt
