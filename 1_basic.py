@@ -13,7 +13,7 @@ def read_csv_file(file_path):
 # Function to extract a colum
 def extract_column(column_index, data):
     try:
-        column_values = [float(row[1]) for row in data[1:]]
+        column_values = [float(row[column_index]) for row in data[1:]]
         return column_values
     except (ValueError, IndexError) as e:
         return None
