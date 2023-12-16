@@ -1,3 +1,6 @@
+# This code works perfectly for success path. 
+# It will break in the middel of execution if there is something wrong
+# Lets move to the next section that we will handle exception in a proper way
 import csv
 from toolz import curry, pipe
 # Function to handle file reading
@@ -20,7 +23,6 @@ def extract_column(column_index, data):
 
 extract_column_index = curry(extract_column)
 extract_score = extract_column_index(1)
-extract_name = extract_column_index(0)
 
 def remove_header(data):
     try:
@@ -46,18 +48,12 @@ def calculate_average(column_values):
 
 data = read_csv_file('example.csv')    
 
-names = pipe(
-    data, 
-    extract_name, 
-    remove_header
-)
-
 average_result = pipe(
-    data, 
+    read_csv_file('example.csv'), 
     extract_score, 
     remove_header, 
     convert_to_float, 
     calculate_average
 )
 
-print(f"An average score of {', '.join(names[:-1])} and {names[-1]} is {average_result}")
+print(f"An average score is {average_result}")
