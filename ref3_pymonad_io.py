@@ -1,15 +1,21 @@
 from pymonad.io import IO
-import csv
-from pymonad.either import Left, Right
 
-def read_csv_file(file_path):
-    return IO(lambda: open(file_path, 'r').read())
+def read_csv(filename):
+    # IO Monad for reading a CSV file
+    return IO(lambda: open(filename, 'r').read())
 
-# Example usage
-csv_file_path = 'example.csv'
 
-csvfile = read_csv_file(csv_file_path).run
-# reader = csv.reader(csvfile)
-data = [row for row in csvfile]
+def process_csv(content):
+    # IO Monad for processing the CSV content (you can replace this with your logic)
+    lines = content.split('\n')
+    headers = lines[0].split(',')
+    return IO(lambda: {'headers': headers, 'data': [line.split(',') for line in lines[1:]]})
 
-print(data)
+# Example program using IO Monad to read and process CSV
+filename = 'example.csv'
+csv_program = read_csv(filename).then(process_csv)
+
+# Execute the program
+result = csv_program.run()
+print("CSV Headers:", result['headers'])
+print("CSV Data:", result['data'])

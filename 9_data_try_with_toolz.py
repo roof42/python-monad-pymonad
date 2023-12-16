@@ -43,8 +43,9 @@ def calculate_average(column_values):
 
 extract_column_index = curry(extract_column)
 extract_score = extract_column_index(1)
-extract_name = extract_column_index(0)
 
+#It work, however toolz didn't provide us the way to hanle exception in functional style
+#We need 
 try:
     average_result = pipe(
             read_csv_file('example.csv'),
