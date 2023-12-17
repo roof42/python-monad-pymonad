@@ -11,9 +11,9 @@ def read_csv_file(file_path):
         return Left("Error: File not found")
 
 @curry(2)
-def remove_column(column_index, data):
+def remove_row(row_index, data):
     if len(data) > 1:
-        return Right(data[column_index:])  
+        return Right(data[row_index:])  
     else: 
         return Left("Error: Unable to remove header")
 
@@ -41,9 +41,9 @@ def calculate_average(column_values):
 # Data pipeline using the Either monad and custom sequencing operator
 csv_file_path = 'example.csv'
 score_column_index = 1
-header_column_index = 1
+header_row_index = 1
 # Partial apply
-remove_header = remove_column(header_column_index)
+remove_header = remove_row(header_row_index)
 extract_score_column = extract_column(score_column_index)
 convert_score_to_float = convert_to(float)
 # Function composition in Railway Oriented Programming

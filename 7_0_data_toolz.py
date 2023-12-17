@@ -22,9 +22,9 @@ def extract_column(column_index, data):
         return None    
 
 @curry 
-def remove_column(column_index, data):
+def remove_row(row_index, data):
     try:
-        return data[column_index:]
+        return data[row_index:]
     except IndexError as e:
         return None
 
@@ -45,9 +45,9 @@ def calculate_average(column_values):
 # Data pipeline
 csv_file_path = 'example.csv'
 score_column_index  = 1
-header_column_index = 1
+header_row_index = 1
 score_column    = extract_column(score_column_index)
-removed_header  = remove_column(header_column_index)
+removed_header  = remove_row(header_row_index)
 score_as_float  = convert_to(float)
 
 average_result = pipe(
