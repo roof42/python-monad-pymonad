@@ -37,10 +37,10 @@ def calculate_average(column_values):
     try:
         return sum(column_values) / len(column_values)
     except ZeroDivisionError as e:
-        return None
+        raise ZeroDivisionError(f"Error zero division: {e}")
 
 #============== Data pipeline ================================
-csv_file_path = '1example.csv'
+csv_file_path = 'example.csv'
 score_column_index  = 1
 header_column_index = 1
 score_column    = extract_column(score_column_index)
