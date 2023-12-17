@@ -6,25 +6,27 @@ from pymonad.either import Left, Right
 def read_csv_file(file_path):
     if os.path.isfile(file_path):
         with open(file_path, 'r') as csvfile:
-            return Right(list(map(list, csv.reader(csvfile))))
+            return Right([row for row in csv.reader(csvfile)])
     else:
         return Left("Error: File not found")
 
-def remove_header(data):
+@curry(2)
+def remove_column(column_index, data):
     if len(data) > 1:
-        return Right(data[1:])  
+        return Right(data[column_index:])  
     else: 
         return Left("Error: Unable to remove header")
 
 @curry(2)
 def extract_column(column_index, data): 
     if len(data) > column_index:
-        return Right(list(map(lambda row: row[column_index], data)))
+        return Right([row[column_index] for row in data])
     else: 
         return Left("Error: Unable to extract column")  
 
-def convert_to_float(data):
-    converted_data = [float(item) if item.isdigit() else None for item in data]
+@curry(2)
+def convert_to(converter, data):
+    converted_data = [converter(item) if item.isdigit() else None for item in data]
     if all(x is not None for x in converted_data):
         return Right(converted_data)
     else:
@@ -39,15 +41,20 @@ def calculate_average(column_values):
 # Data pipeline using the Either monad and custom sequencing operator
 csv_file_path = 'example.csv'
 score_column_index = 1
-
+header_column_index = 1
+# Partial apply
+remove_header = remove_column(header_column_index)
+extract_score_column = extract_column(score_column_index)
+convert_score_to_float = convert_to(float)
+# Function composition
 result = (
     read_csv_file(csv_file_path)
+    .then (extract_score_column)
     .then (remove_header)
-    .then (extract_column(score_column_index))
-    .then (convert_to_float)
+    .then (convert_score_to_float)
     .then (calculate_average) 
 )
-
+# Final result with if and else
 if result.is_right():
     print(f"An average score is {result}")
 else:   

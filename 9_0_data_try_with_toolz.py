@@ -1,59 +1,63 @@
 import csv
 from toolz import curry, pipe
+from typing import Final
 
 # Function to handle file reading
 def read_csv_file(file_path):
     try:
         with open(file_path, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data = [row for row in reader]
-            return data
+            return [row for row in csv.reader(csvfile)]
     except FileNotFoundError as e:
         raise FileNotFoundError(f"Error reading file: {e}")
 
-# Function to extract a column
+# Extract 3 functions that do one thing and do it well
+@curry 
 def extract_column(column_index, data):
     try:
-        column_values = [row[column_index] for row in data]
-        return column_values
-    except (ValueError, IndexError) as e:
-        raise ValueError(f"Error extracting column: {e}")
+        return [row[column_index] for row in data]
+    except (IndexError) as e:
+        raise IndexError(f"Error extracting column: {e}")
 
-def remove_header(data):
+@curry 
+def remove_column(column_index, data):
     try:
-        data = data[1:]
-        return data
+        return data[column_index:]
     except IndexError as e:
-        raise IndexError(f"Error removing header: {e}")
+       raise IndexError(f"Error removing header: {e}")
 
-def convert_to_float(data):
+@curry 
+def convert_to(converter, data):
     try:
-        converted_data = [float(item) for item in data]
-        return converted_data
+        return [converter(item) for item in data] 
     except ValueError as e:
         raise ValueError(f"Error converting to float: {e}")
 
 # Function to calculate average
 def calculate_average(column_values):
     try:
-        average = sum(column_values) / len(column_values)
-        return average
+        return sum(column_values) / len(column_values)
     except ZeroDivisionError as e:
-        raise ZeroDivisionError("Error calculating average: Division by zero")
+        return None
 
-extract_column_index = curry(extract_column)
-extract_score = extract_column_index(1)
+#============== Data pipeline ================================
+csv_file_path = '1example.csv'
+score_column_index  = 1
+header_column_index = 1
+score_column    = extract_column(score_column_index)
+remove_header  = remove_column(header_column_index)
+convert_score_to_float  = convert_to(float)
 
-#It work, however toolz didn't provide us the way to hanle exception in functional style
-#We need 
 try:
     average_result = pipe(
-            read_csv_file('example.csv'),
-            extract_score,
-            remove_header,
-            convert_to_float,
-            calculate_average
+        read_csv_file(csv_file_path), 
+        score_column, 
+        remove_header, 
+        convert_score_to_float, 
+        calculate_average
     )
     print(f"An average score is {average_result}")
 except (FileNotFoundError, ValueError, IndexError, ZeroDivisionError) as e:
     print(f"Exception caught: {e}")
+
+#It work, however toolz didn't provide us the way to hanle exception in functional style
+#We need 
