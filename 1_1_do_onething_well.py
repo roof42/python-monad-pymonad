@@ -20,9 +20,9 @@ def remove_column(column_index, data):
     except IndexError as e:
         return None
 
-def convert_to_float(data):
+def convert_to(convert_function, data):
     try:
-        return [float(item) for item in data] 
+        return [convert_function(item) for item in data] 
     except ValueError as e:
         return None
 
@@ -35,7 +35,7 @@ def calculate_average(column_values):
 
 # Data pipeline
 csv_file_path = 'example.csv'
-score_column_index = 1  # Assuming the second column (index 1) needs to be processed
+score_column_index = 1
 header_column_index = 1
 data = read_csv_file(csv_file_path)
 
@@ -44,7 +44,7 @@ if data == None:
 else:
     score_column_values     = extract_column(score_column_index, data)
     removed_header_data     = remove_column(header_column_index, score_column_values)
-    score_column_as_float   = convert_to_float(removed_header_data)
+    score_column_as_float   = convert_to(float, removed_header_data)
 
     if score_column_as_float == None:
         print("Error extracting column")
