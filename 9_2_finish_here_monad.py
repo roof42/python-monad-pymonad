@@ -46,7 +46,9 @@ header_column_index = 1
 remove_header = remove_column(header_column_index)
 extract_score_column = extract_column(score_column_index)
 convert_score_to_float = convert_to(float)
-# Function composition
+# Function composition in Railway Oriented Programming
+# ==> |Apply| => OK ==> |Apply| => OK  
+#             => NO             => NO   
 result = (
     read_csv_file(csv_file_path)
     .then (extract_score_column)
