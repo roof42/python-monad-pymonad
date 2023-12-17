@@ -1,8 +1,4 @@
-# This code works perfectly for success path. 
-# It will break in the middel of execution if there is something wrong
-# Lets move to the next section that we will handle exception in a proper way
 import csv
-from toolz import curry, pipe
 # Function to handle file reading
 def read_csv_file(file_path):
     try:
@@ -10,7 +6,7 @@ def read_csv_file(file_path):
             return [row for row in csv.reader(csvfile)]
     except FileNotFoundError as e:
         return None
-    
+
 # Extract 3 functions that do one thing and do it well
 def extract_column(column_index, data):
     try:
@@ -29,25 +25,32 @@ def convert_to_float(data):
         return [float(item) for item in data] 
     except ValueError as e:
         return None
-    
+
 # Function to calculate average
 def calculate_average(column_values):
     try:
         return sum(column_values) / len(column_values)
     except ZeroDivisionError as e:
-        return None    
+        return None
 
-data = read_csv_file('example.csv')  
-extract_column_index = curry(extract_column)
-extract_score = extract_column_index(1)
+# Data pipeline
+csv_file_path = 'example.csv'
+score_column_index = 1  # Assuming the second column (index 1) needs to be processed
+header_column_index = 1
+data = read_csv_file(csv_file_path)
 
+if data == None:
+    print("Error reading CSV file")
+else:
+    score_column_values     = extract_column(score_column_index, data)
+    removed_header_data     = remove_column(header_column_index, score_column_values)
+    score_column_as_float   = convert_to_float(removed_header_data)
 
-average_result = pipe(
-    read_csv_file('example.csv'), 
-    extract_score, 
-    remove_header, 
-    convert_to_float, 
-    calculate_average
-)
-
-print(f"An average score is {average_result}")
+    if score_column_as_float == None:
+        print("Error extracting column")
+    else:
+        result = calculate_average(score_column_as_float)
+        if result == None:
+            print("Error calculating average")
+        else:
+            print(f"The average is: {result}")
