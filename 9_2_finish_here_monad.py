@@ -46,9 +46,7 @@ header_row_index = 1
 remove_header = remove_row(header_row_index)
 extract_score_column = extract_column(score_column_index)
 convert_score_to_float = convert_to(float)
-# Function composition in Railway Oriented Programming
-# ==> |Apply| => OK ==> |Apply| => OK  
-#             => NO             => NO   
+
 result = (
     read_csv_file(csv_file_path)
     .then (extract_score_column)
@@ -56,7 +54,7 @@ result = (
     .then (convert_score_to_float)
     .then (calculate_average) 
 )
-# Final result with if and else
+
 if result.is_right():
     print(f"An average score is {result}")
 else:   

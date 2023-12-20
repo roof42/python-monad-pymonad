@@ -1,5 +1,7 @@
 from pymonad.either import Left, Right
+from pymonad.tools import curry
 
+@curry(2)
 def divide(a, b):
     return (
         Right(a/b) 
@@ -7,8 +9,6 @@ def divide(a, b):
         else Left("Error: Division by zero")
     )
 
-# Example usage
-result = divide(10, 2)  # Result: Right(5.0)
-result = divide(10, 0)  # Result: Left('Error: Division by zero')
+result = Right(10).then(divide(2)).then(divide(5))
 
 print(result)
