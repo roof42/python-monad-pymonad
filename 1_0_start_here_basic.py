@@ -2,21 +2,17 @@ import csv
 
 # Function to handle file reading
 def read_csv_file(file_path):
-    try:
-        with open(file_path, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data = [row for row in reader]
-            return data
-    except FileNotFoundError as e:
-        return None
+    with open(file_path, 'r') as csvfile:
+        reader = csv.reader(csvfile)
+        data = [row for row in reader]
+        return data
+
 
 # Function to extract a colum
 def extract_column(column_index, data):
-    try:
-        column_values = [float(row[column_index]) for row in data[1:]]
-        return column_values
-    except (ValueError, IndexError) as e:
-        return None
+    column_values = [float(row[column_index]) for row in data[1:]]
+    return column_values
+
 
 # Function to calculate average
 def calculate_average(column_values):
