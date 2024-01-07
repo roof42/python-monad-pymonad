@@ -39,9 +39,7 @@ if data == None:
     print("Error reading CSV file")
 else:
     # Step 2: Extract column
-    print(data)
     score_column_values = extract_column(column_index, data)
-    print(data)
     if score_column_values == None:
         print("Error extracting column")
     else:
