@@ -11,13 +11,7 @@ sample_data = [
 
 # Function to extract a column
 def extract_column_currying_standard_python(column_index):
-    def curried(data):
-        try:
-            score_column_values = [row[column_index] for row in data]
-            return score_column_values
-        except (ValueError, IndexError):
-            return None
-    return curried
+    return None # <-- Replace this line with your code
 
 # Assuming you want to extract the second column (index 1)
 name_column_index = 0
@@ -29,12 +23,3 @@ score_list = extract_column_currying_standard_python(score_column_index)
 # Displaying the result
 print(f"Extracted Column: {score_list(sample_data)}")
 print(f"Extracted Column: {name_list(sample_data)}")
-
-
-# Function to extract a column
-def extract_column_currying(column_index, data):
-    try:
-        score_column_values = [row[column_index] for row in sample_data]
-        return score_column_values
-    except (ValueError, IndexError) as e:
-        return None
