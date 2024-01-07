@@ -7,17 +7,18 @@ def read_csv_file(file_path):
         data = [row for row in reader]
         return data
 
-
 # Function to extract a colum
 def extract_column(column_index, data):
-    column_values = [float(row[column_index]) for row in data[1:]]
-    return column_values
+    data.pop(0)
+    print(data)
+    result = [float(row[column_index]) for row in data]
+    return result
 
+def remove_header(data):
+    return data.pop(0)
 
 # Function to calculate average
 def calculate_average(column_values):
-    if column_values is None or not column_values:
-        return None, "Cannot calculate average due to empty or missing column"
     try:
         average = sum(column_values) / len(column_values)
         return average
@@ -26,22 +27,21 @@ def calculate_average(column_values):
 
 # Data pipeline
 csv_file_path = 'example.csv'
-column_index = 1  # Assuming the second column (index 1) needs to be processed
+column_index = 1  
 
-# Step 1: Read CSV file
+# Main program
 data = read_csv_file(csv_file_path)
-
+print(data)
 if data == None:
     print("Error reading CSV file")
 else:
-    # Step 2: Extract column
-    score_column_values = extract_column(column_index, data)
-    if score_column_values == None:
+    #removed = remove_header(data)
+    scores =extract_column(column_index, data)
+    print(data)
+    if scores == None:
         print("Error extracting column")
     else:
-        # Step 3: Calculate average
-        result = calculate_average(score_column_values)
-
+        result = calculate_average(scores)
         if result == None:
             print("Error calculating average")
         else:

@@ -1,4 +1,5 @@
 # Sample data for testing extract_column function
+from typing import Final
 sample_data = [
     ['Alice', '90', 'A'],
     ['Bob', '85', 'B'],
@@ -11,11 +12,11 @@ sample_data = [
 
 # Function to extract a column
 def extract_column_currying_standard_python(column_index):
-    return None # <-- Replace this line with your code
+    None # <-- Replace this line with your code
 
 # Assuming you want to extract the second column (index 1)
-name_column_index = 0
-score_column_index = 1
+name_column_index: Final = 0
+score_column_index: Final = 1
 
 # Testing extract_column function
 name_list = extract_column_currying_standard_python(name_column_index)
