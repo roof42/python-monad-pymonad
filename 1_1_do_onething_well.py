@@ -1,4 +1,6 @@
 import csv
+from enum import Enum
+from typing import Final
 # Function to handle file reading
 def read_csv_file(file_path):
     with open(file_path, 'r') as csvfile:
@@ -19,17 +21,18 @@ def calculate_average(column_values):
     return sum(column_values) / len(column_values)
 
 # Data pipeline
-csv_file_path = 'example.csv'
-score_column_index = 1
-header_row_index = 1
+class Config(Enum):
+    FILE_PATH: Final = 'example.csv'
+    SCORE: Final = 1
+    HEADER: Final = 1
 
-data = read_csv_file(csv_file_path)
+data = read_csv_file(Config.FILE_PATH)
 if data == None:
     print("Error reading CSV file")
 else:
     score_column_values     = extract_score_column(data)
-    removed_header_data     = remove_header(score_column_values)
-    score_column_as_float   = convert_score_float(removed_header_data)
+    removed_header_data     = remove_header(Config.SCORE)
+    score_column_as_float   = convert_score_float(Config.HEADER)
     if score_column_as_float == None:
         print("Error extracting column")
     else:

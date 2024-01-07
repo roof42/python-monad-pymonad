@@ -1,5 +1,7 @@
 import csv
 import os
+from enum import Enum
+from typing import Final
 from pymonad.tools import curry
 from pymonad.either import Left, Right
 
@@ -39,16 +41,18 @@ def calculate_average(column_values):
         return Left("Error: Division by zero")   
 
 # Data pipeline using the Either monad and custom sequencing operator
-csv_file_path = 'example.csv'
-score_column_index = 1
-header_row_index = 1
+class Config(Enum):
+    FILE_PATH: Final = 'example.csv'
+    SCORE: Final = 1
+    HEADER: Final = 1
+
 # Partial apply
-remove_header = remove_row(header_row_index)
-extract_score_column = extract_column(score_column_index)
+remove_header = remove_row(Config.HEADER)
+extract_score_column = extract_column(Config.SCORE)
 convert_score_to_float = convert_to(float)
 
 result = (
-    read_csv_file(csv_file_path)
+    read_csv_file(Config.FILE_PATH)
     .then (extract_score_column)
     .then (remove_header)
     .then (convert_score_to_float)

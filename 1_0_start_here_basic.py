@@ -10,7 +10,6 @@ def read_csv_file(file_path):
 # Function to extract a colum
 def extract_column(column_index, data):
     data.pop(0)
-    print(data)
     result = [float(row[column_index]) for row in data]
     return result
 
@@ -31,13 +30,12 @@ column_index = 1
 
 # Main program
 data = read_csv_file(csv_file_path)
-print(data)
+print(f"An original copy of --> {data}")
 if data == None:
     print("Error reading CSV file")
 else:
-    #removed = remove_header(data)
     scores =extract_column(column_index, data)
-    print(data)
+    print(f"An original copy After Extracted Column: --> {data}")
     if scores == None:
         print("Error extracting column")
     else:
