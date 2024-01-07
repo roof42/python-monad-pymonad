@@ -27,9 +27,9 @@ data = read_csv_file(csv_file_path)
 if data == None:
     print("Error reading CSV file")
 else:
-    score_column_values     = extract_score_column(score_column_index, data)
-    removed_header_data     = remove_header(header_row_index, score_column_values)
-    score_column_as_float   = convert_score_float(float, removed_header_data)
+    score_column_values     = extract_score_column(data)
+    removed_header_data     = remove_header(score_column_values)
+    score_column_as_float   = convert_score_float(removed_header_data)
     if score_column_as_float == None:
         print("Error extracting column")
     else:
