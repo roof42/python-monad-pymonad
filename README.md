@@ -12,6 +12,8 @@ Feel free to explore the code examples and dive deeper into these functional pro
 ## Getting Started
 - Clone this repository to get started.
 - Check out the slides/ directory for presentation materials. https://1drv.ms/p/s!Avm4-TXSbYZzgUuh0awwDYUmouvA?e=RGbM5Z
+- Check out the talk here in youtube. https://www.youtube.com/watch?v=mhxEm1aYvAY&t=712s
+- 
 ## Contact
 If you have any questions or want to discuss functional programming further, feel free to reach out via GitHub issues or connect with me on discord "ruufimon".
 Happy coding! 🚀
