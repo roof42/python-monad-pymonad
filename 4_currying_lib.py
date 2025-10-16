@@ -43,23 +43,17 @@ def calculate_average(column_values):
 csv_file_path = 'example.csv'
 score_column_index  = 1
 header_row_index = 1
-score_column    = extract_column(score_column_index)
-removed_header  = remove_row(header_row_index)
-score_as_float  = convert_to(float)
-data = read_csv_file(csv_file_path)
+# Unary functions created by currying
+score_column            = extract_column(score_column_index)
+removed_header          = remove_row(header_row_index)
+score_as_float          = convert_to(float)
 
-if data == None:
-    print("Error reading CSV file")
-else:
-    score_column_values     = score_column(data)
-    removed_header_data     = removed_header(score_column_values)
-    score_column_as_float   = score_as_float(removed_header_data)
-
-    if score_column_as_float == None:
-        print("Error extracting column")
-    else:
-        result = calculate_average(score_column_as_float)
-        if result == None:
-            print("Error calculating average")
-        else:
-            print(f"The average is: {result}")
+data                    = read_csv_file(csv_file_path)
+score_column_values     = score_column(data)
+removed_header_data     = removed_header(score_column_values)
+score_column_as_float   = score_as_float(removed_header_data)
+"""
+Compose multiple functions: f(g(...(h(x)))) = (f ∘ g ∘ ... ∘ h)(x)
+"""
+result = calculate_average(score_as_float(removed_header(score_column(read_csv_file(csv_file_path)))))
+print(f"The average is: {result}")
