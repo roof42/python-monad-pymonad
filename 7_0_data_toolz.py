@@ -46,15 +46,12 @@ def calculate_average(column_values):
 csv_file_path = 'example.csv'
 score_column_index  = 1
 header_row_index = 1
-score_column    = extract_column(score_column_index)
-removed_header  = remove_row(header_row_index)
-score_as_float  = convert_to(float)
 
 average_result = pipe(
     read_csv_file(csv_file_path), 
-    score_column, 
-    removed_header, 
-    score_as_float, 
+    extract_column(score_column_index), 
+    remove_row(header_row_index), 
+    convert_to(float), 
     calculate_average
 )
 
