@@ -10,7 +10,6 @@ def read_csv(path):
                 return Right(rows)
         except Exception as e:
             return Left(str(e))
-
     return IO(effect)
 
 def to_uppercase(data):
@@ -27,15 +26,19 @@ def print_result(result):
 def run_csv_pipeline(read_csv, path):
     return read_csv(path).map(lambda data: data.then(to_uppercase).then(print_result))
 
-# ✅ Run the pipeline
-if __name__ == "__main__":
-    program = run_csv_pipeline(read_csv, "example.csv")
-    print("Nothing has happened yet...Neo is the one and he will make things happen. when he is ready.")
-    program.run()
-    print("All done - Neo has made things happen.")
+# def run_mock_pipeline(mock_read_csv, path):
+#     return mock_read_csv(path).map(lambda data: data.then(to_uppercase).then(print_result))
 
 # def mock_read_csv(path):
 #     return Right(Right([
 #         {"name": "alice", "city": "bangkok"},
 #         {"name": "bob", "city": "chiang mai"},
 #     ]))
+
+# ✅ Run the pipeline
+if __name__ == "__main__":
+    # program_mock = run_mock_pipeline(mock_read_csv, "example.csv")
+    program = run_csv_pipeline(read_csv, "example.csv")
+    print("Nothing has happened yet...Neo is the one and he will make things happen. when he is ready.")
+    program.run()
+    print("All done - Neo has made things happen.")
