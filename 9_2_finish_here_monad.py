@@ -2,8 +2,10 @@ import csv
 import os
 from pymonad.tools import curry
 from pymonad.either import Left, Right
+from pymonad.maybe import Just, Nothing
 
-def read_csv_file(file_path):
+
+def read_csv_file(file_path): # Either[..., ...]
     if os.path.isfile(file_path):
         with open(file_path, 'r') as csvfile:
             return Right([row for row in csv.reader(csvfile)])
@@ -11,28 +13,28 @@ def read_csv_file(file_path):
         return Left("Error: File not found")
 
 @curry(2)
-def remove_row(row_index, data):
+def remove_row(row_index, data): # Either[..., ...]
     if len(data) > 1:
         return Right(data[row_index:])  
     else: 
         return Left("Error: Unable to remove header")
 
 @curry(2)
-def extract_column(column_index, data): 
+def extract_column(column_index, data): # Either[..., ...]
     if len(data) > column_index:
         return Right([row[column_index] for row in data])
     else: 
         return Left("Error: Unable to extract column")  
 
 @curry(2)
-def convert_to(converter, data):
+def convert_to(converter, data): # Option[..., ...]
     converted_data = [converter(item) if item.isdigit() else None for item in data]
     if all(x is not None for x in converted_data):
-        return Right(converted_data)
+        return Just(converted_data)
     else:
-        return Left("Error: Unable to convert to float")    
+        return Nothing
 
-def calculate_average(column_values):
+def calculate_average(column_values): # Either[..., ...]
     if len(column_values) > 0:
         return Right(sum(column_values) / len(column_values))
     else: 
