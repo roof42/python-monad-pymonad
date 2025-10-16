@@ -14,16 +14,12 @@ def calculate_average_from_csv(file_path, column_index):
         print(f"Error reading CSV file: {e}")
         return None
 
-    if not data or len(data) < 2:
-        print("Error: CSV file is empty or only contains a header.")
-        return None
-
     # --- 2. Extract Column and Convert to Float (combined extract_column logic) ---
-    column_values = []
-    
+    column_values = [] 
     for row in data[1:]:
         try:
             if column_index < len(row):
+                # mutate list in place
                 column_values.append(float(row[column_index].strip()))
             else:
                 print(f"Warning: Row is too short to contain column index {column_index}. Skipping row: {row}")
@@ -31,10 +27,6 @@ def calculate_average_from_csv(file_path, column_index):
             print(f"Warning: Non-numeric data found in row for calculation. Skipping value: '{row[column_index]}'")
         except IndexError:
             print(f"Error extracting column at index {column_index}. Skipping row: {row}")
-
-    if not column_values:
-        print("Error: No valid numerical data found in the specified column.")
-        return None
 
     # --- 3. Calculate Average (combined calculate_average logic) ---
     try:
@@ -46,7 +38,6 @@ def calculate_average_from_csv(file_path, column_index):
 
 
 # --- Setup and Execution (The Main Program) ---
-
 csv_file_path = 'example.csv'
 column_index = 1 # Assuming the second column (Score) needs to be averaged
 
@@ -55,4 +46,4 @@ result = calculate_average_from_csv(csv_file_path, column_index)
 
 # Print the final result
 if result is not None:
-    print(f"\nThe average of the column (index {column_index}) is: {result:.2f}")
+    print(f"\nThe average is:: {result}")
