@@ -19,7 +19,8 @@ def remove_row(row_index, data):
         return data[row_index:]
     except IndexError as e:
         return None
-
+    
+# Convert using a passed-in function
 def convert_to(converter, data):
     try:
         return [converter(item) for item in data] 
@@ -37,20 +38,21 @@ def calculate_average(column_values):
 csv_file_path = 'example.csv'
 score_column_index = 1
 header_row_index = 1
-data = read_csv_file(csv_file_path)
 
-if data == None:
-    print("Error reading CSV file")
-else:
-    score_column_values     = extract_column(score_column_index, data)
-    removed_header_data     = remove_row(header_row_index, score_column_values)
-    score_column_as_float   = convert_to(float, removed_header_data)
+data                    = read_csv_file(csv_file_path)
+score_column_values     = extract_column(score_column_index, data)
+removed_header_data     = remove_row(header_row_index, score_column_values)
+score_column_as_float   = convert_to(float, removed_header_data)
+result                  = calculate_average(score_column_as_float)
 
-    if score_column_as_float == None:
-        print("Error extracting column")
-    else:
-        result = calculate_average(score_column_as_float)
-        if result == None:
-            print("Error calculating average")
-        else:
-            print(f"The average is: {result}")
+# result = calculate_average(
+#     convert_to(float,
+#         remove_row(header_row_index,
+#             extract_column(score_column_index,
+#                 read_csv_file(csv_file_path)
+#             )
+#         )
+#     )
+# )
+
+print(f"The average is: {result}")
