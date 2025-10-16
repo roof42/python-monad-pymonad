@@ -21,21 +21,15 @@ def calculate_average_from_csv(file_path, column_index):
     # --- 2. Extract Column and Convert to Float (combined extract_column logic) ---
     column_values = []
     
-    # Start from the second row (data[1:]) to skip the header
     for row in data[1:]:
         try:
-            # Check if the column index is valid for the current row
             if column_index < len(row):
-                # Convert the value to float and add to the list
                 column_values.append(float(row[column_index].strip()))
             else:
-                # Handle cases where a row might be shorter than expected
                 print(f"Warning: Row is too short to contain column index {column_index}. Skipping row: {row}")
         except ValueError:
-            # Handle non-numeric data in the target column
             print(f"Warning: Non-numeric data found in row for calculation. Skipping value: '{row[column_index]}'")
         except IndexError:
-             # Should be caught by the length check above, but included for robustness
             print(f"Error extracting column at index {column_index}. Skipping row: {row}")
 
     if not column_values:
@@ -47,7 +41,6 @@ def calculate_average_from_csv(file_path, column_index):
         average = sum(column_values) / len(column_values)
         return average
     except ZeroDivisionError:
-        # This shouldn't happen if the column_values list is checked above, but included for safety
         print("Error: Zero division while calculating average.")
         return None
 
