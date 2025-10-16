@@ -20,9 +20,9 @@ def remove_row(row_index, data):
     except IndexError as e:
         return None
 
-def convert_to(converter, data):
+def convert_to_float(data):
     try:
-        return [converter(item) for item in data] 
+        return [float(item) for item in data]
     except ValueError as e:
         return None
 
@@ -44,7 +44,7 @@ if data == None:
 else:
     score_column_values     = extract_column(score_column_index, data)
     removed_header_data     = remove_row(header_row_index, score_column_values)
-    score_column_as_float   = convert_to(float, removed_header_data)
+    score_column_as_float   = convert_to_float(removed_header_data)
 
     if score_column_as_float == None:
         print("Error extracting column")
