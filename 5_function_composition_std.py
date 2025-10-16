@@ -4,7 +4,7 @@ def compose(*functions):
     """
     def composed_function(x):
         result = x
-        for func in reversed(functions):
+        for func in functions:
             result = func(result)
         return result
     return composed_function
@@ -23,7 +23,7 @@ def to_s(s):
     return f"final result {str(s)}"
 
 # Compose functions to create a pipeline
-pipeline = compose(to_s, square, add_one, double)
+pipeline = compose(double, add_one, square, to_s)
 result = pipeline(3)
 
 print(f"Result: {result}")
