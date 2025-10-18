@@ -14,7 +14,7 @@ def read_csv(path):
 
 def to_uppercase(data):
     if len(data) > 1:
-        return Right([ {k: v.upper() for k, v in row.items()} for row in data ])
+        return ([ {k: v.upper() for k, v in row.items()} for row in data ])
     return data
 
 def print_result(result):
